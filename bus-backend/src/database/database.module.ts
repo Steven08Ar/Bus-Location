@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '@nestjs/config';
+import { SeedService } from './seed.service';
+import { User } from '../users/entities/user.entity';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { ConfigService } from '@nestjs/config';
         synchronize: true, // disable in production
       }),
     }),
+    TypeOrmModule.forFeature([User]),
   ],
+  providers: [SeedService],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

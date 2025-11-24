@@ -8,6 +8,8 @@ import { BusModule } from './bus/bus.module';
 import { RoutesModule } from './routes/routes.module';
 import { EtaModule } from './eta/eta.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { DriverShiftsModule } from './driver-shifts/driver-shifts.module';
 
 @Module({
   imports: [
@@ -18,8 +20,10 @@ import { UsersModule } from './users/users.module';
     RoutesModule,
     EtaModule,
     UsersModule,
+    AuthModule,
+    DriverShiftsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
