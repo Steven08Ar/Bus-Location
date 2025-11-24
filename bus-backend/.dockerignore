@@ -1,0 +1,22 @@
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+.pnpm-store
+.dist
+coverage
+coverage-e2e
+.DS_Store
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+.env
+
+# build output
+/dist
+
+# editor
+.idea
+.vscode

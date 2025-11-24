@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { env, EnvConfig } from './env';
+import { ConfigService as NestConfigService } from '@nestjs/config';
 
 @Injectable()
-export class ConfigService {
-  private readonly config: EnvConfig = env;
-
-  get<T extends keyof EnvConfig>(key: T): EnvConfig[T] {
-    return this.config[key];
-  }
-}
+export class ConfigService extends NestConfigService {}

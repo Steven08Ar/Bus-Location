@@ -1,13 +1,21 @@
-import { Column, CreateDateColumn, OneToMany, PrimaryColumn, UpdateDateColumn, Entity, ManyToOne } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+  Entity,
+  ManyToOne,
+} from 'typeorm';
 import { BusLocation } from './bus-location.entity';
 import { Route } from '../../routes/entities/route.entity';
 
 @Entity('buses')
 export class Bus {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'varchar' })
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 64 })
   name: string;
 
   @ManyToOne(() => Route, (route) => route.buses, { nullable: true, eager: true })

@@ -10,7 +10,15 @@ import { EtaModule } from './eta/eta.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, MapboxModule, BusModule, RoutesModule, EtaModule, UsersModule],
+  imports: [
+    ConfigModule,
+    DatabaseModule,
+    MapboxModule,
+    BusModule,
+    RoutesModule,
+    EtaModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,5 +1,5 @@
 export interface LocationMessage {
-  busId: string;
+  id: string;
   lat: number;
   lng: number;
   speed?: number;
@@ -7,7 +7,7 @@ export interface LocationMessage {
 }
 
 export interface BusLocationPayload {
-  busId: string;
+  id: string;
   lat: number;
   lng: number;
   speed?: number;

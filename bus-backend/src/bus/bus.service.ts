@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Bus } from './entities/bus.entity';
 import { BusLocation } from './entities/bus-location.entity';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { BusGateway } from './bus.gateway';
+import { BusLocationPayload } from './interfaces/location-message.interface';
 
 @Injectable()
 export class BusService {
@@ -16,8 +17,24 @@ export class BusService {
     private readonly busGateway: BusGateway,
   ) {}
 
-  async saveLocation(dto: UpdateLocationDto): Promise<BusLocation> {
-    const bus = await this.getOrCreateBus(dto.busId);
+  validateIncomingMqttData(data: any): data is BusLocationPayload {
+    if (!data || typeof data !== 'object') return false;
+    const { id, lat, lng } = data as Record<string, unknown>;
+    const isValidNumber = (value: unknown) =>
+      typeof value === 'number' && Number.isFinite(value);
+    return (
+      typeof id === 'string' &&
+      id.trim() !== '' &&
+      isValidNumber(lat) &&
+      isValidNumber(lng)
+    );
+  }
+
+  async saveLocation(dto: UpdateLocationDto | BusLocationPayload): Promise<BusLocation> {
+    if (!this.validateIncomingMqttData(dto)) {
+      throw new BadRequestException('Invalid location payload');
+    }
+    const bus = await this.getOrCreateBus(dto.id);
     const location = this.locationRepository.create({
       bus,
       lat: dto.lat,
@@ -27,7 +44,7 @@ export class BusService {
     });
     const saved = await this.locationRepository.save(location);
     this.busGateway.broadcastLocation({
-      busId: bus.id,
+      id: bus.id,
       lat: saved.lat,
       lng: saved.lng,
       speed: saved.speed,
@@ -70,6 +87,9 @@ export class BusService {
   }
 
   private async getOrCreateBus(busId: string): Promise<Bus> {
+    if (!busId) {
+      throw new BadRequestException('Bus id cannot be empty');
+    }
     const existing = await this.busRepository.findOne({ where: { id: busId } });
     if (existing) {
       return existing;

@@ -1,9 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateLocationDto {
   @IsString()
-  busId: string;
+  @IsNotEmpty()
+  id: string;
 
   @Type(() => Number)
   @IsNumber()

@@ -1,5 +1,6 @@
-import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { BusService } from './bus.service';
+import { UpdateLocationDto } from './dto/update-location.dto';
 
 @Controller('bus')
 export class BusController {
@@ -16,5 +17,10 @@ export class BusController {
       throw new BadRequestException('busId is required');
     }
     return this.busService.getHistory(busId, Number(limit));
+  }
+
+  @Post('location')
+  createLocation(@Body() dto: UpdateLocationDto) {
+    return this.busService.saveLocation(dto);
   }
 }

@@ -1,12 +1,15 @@
-FROM node:18-alpine
+FROM node:20-alpine as base
 
+RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --legacy-peer-deps
+# install deps
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --no-frozen-lockfile
 
+# build
 COPY . .
-RUN npm run build
+RUN pnpm build
 
 EXPOSE 3000
-CMD ["node", "dist/main"]
+CMD ["pnpm", "start"]

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from '@nestjs/config';
 import { handleServiceError } from '../utils/error-handler';
 
 export interface Coordinates {
@@ -20,7 +20,7 @@ interface MapboxResponse {
 
 @Injectable()
 export class MapboxService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   private get token(): string {
     const token = this.configService.get('MAPBOX_TOKEN');
