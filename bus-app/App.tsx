@@ -3,9 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Welcome from './screens/Welcome';
-import UserLogin from './screens/UserLogin';
 import UserRegister from './screens/UserRegister';
-import DriverLogin from './screens/DriverLogin';
 import UserHome from './screens/UserHome';
 import DriverHome from './screens/DriverHome';
 import { View, ActivityIndicator } from 'react-native';
@@ -48,22 +46,18 @@ function Navigation() {
           <Stack.Screen 
             name="Welcome" 
             component={Welcome} 
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name="UserLogin" 
-            component={UserLogin} 
-            options={{ title: 'User Login' }}
+            options={{ 
+              headerShown: false,
+              animation: 'none',
+            }}
           />
           <Stack.Screen 
             name="UserRegister" 
             component={UserRegister} 
-            options={{ title: 'Register' }}
-          />
-          <Stack.Screen 
-            name="DriverLogin" 
-            component={DriverLogin} 
-            options={{ title: 'Driver Login' }}
+            options={{ 
+              headerShown: false,
+              animation: 'none',
+            }}
           />
         </>
       )}
